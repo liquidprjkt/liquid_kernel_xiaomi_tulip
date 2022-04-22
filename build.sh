@@ -15,7 +15,6 @@ export KBUILD_COMPILER_STRING="$(${KERNEL_DIR}/clang/bin/clang --version | head 
 export ARCH=arm64
 export KBUILD_BUILD_HOST=IceBreaker2451
 export KBUILD_BUILD_USER="liquid-CI"
-
 status="BETA"
 
 # Send info plox channel
@@ -65,7 +64,7 @@ function compile() {
 
     if ! [ -a "$IMAGE" ]; then
         finerr
-    else
+    elsea
         push
     fi
     cp out/arch/arm64/boot/Image.gz-dtb AnyKernel
@@ -76,9 +75,22 @@ function zipping() {
     zip -r9 liquid-1.0-tulip-${TANGGAL}.zip *
     cd ..
 }
-#sendinfo
-#compile
-#zipping
+
+# Push kernel to channel
+function kpush() {
+    cd AnyKernel
+    ZIP=$(echo *.zip)
+        curl -F document=@$ZIP "https://api.telegram.org/bot${token}/sendDocument" \
+        -F chat_id="${chat_id}" \
+        -F "disable_web_page_preview=true" \
+        -F "parse_mode=html" \
+        -F caption="Build For <b>Redmi Note 6 Pro</b>"
+}
+
+sendinfo
+compile
+zipping
+kpush
 END=$(date +"%s")
 DIFF=$(($END - $START))
 push
