@@ -72,7 +72,7 @@ function compile() {
 # Zipping
 function zipping() {
     cd AnyKernel
-    zip -r9 liquid-1.0-tulip-${TANGGAL}.zip *
+    zip -r9 liquid-1.4-tulip-${TANGGAL}.zip *
     cd ..
 }
 
